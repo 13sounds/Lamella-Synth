@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\processor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\entry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Dev\VST_SDK\vst3sdk\public.sdk\source\main\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AdditiveSynth\AdditiveOscillator.cpp" />
+    <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp" />
+    <ClCompile Include="..\source\Helpers\AudioHelpers.cpp" />
+    <ClCompile Include="..\source\Instrument\ParamRegistration.cpp" />
+    <ClCompile Include="..\source\CustomUI\UIFactory.cpp" />
+    <ClCompile Include="..\source\CustomUI\PartialGraph.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\cids.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\processor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AdditiveSynth\AdditiveOscillator.h" />
+    <ClInclude Include="..\source\Partial\ImpulseEnvelope.h" />
+    <ClInclude Include="..\source\Helpers\AudioHelpers.h" />
+    <ClInclude Include="..\source\Helpers\DataExchangeInfo.h" />
+    <ClInclude Include="..\source\Instrument\ParamRegistration.h" />
+    <ClInclude Include="..\source\Instrument\LamellaInstrument.h" />
+    <ClInclude Include="..\source\Instrument\LamellaVoice.h" />
+    <ClInclude Include="..\source\Partial\Partial.h" />
+    <ClInclude Include="..\source\Partial\Oscillator.h" />
+    <ClInclude Include="..\source\CustomUI\TestSubController.h" />
+    <ClInclude Include="..\source\CustomUI\PartialGraph.h" />
+    <ClInclude Include="..\source\Instrument\ParamIDs.h.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\editor.uidesc">
+      <Filter>Contents\Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\80AE2F99D644575B8C0E1F7208375B2B_snapshot.png">
+      <Filter>Contents\Resources\Snapshots</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\80AE2F99D644575B8C0E1F7208375B2B_snapshot_2.0x.png">
+      <Filter>Contents\Resources\Snapshots</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\win32resource.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{A5844DEB-07E1-3C2D-9802-F1524535DEB8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Resources">
+      <UniqueIdentifier>{F428A9FA-83FD-3696-A0B5-487C4A3BAFB9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Resources\Snapshots">
+      <UniqueIdentifier>{A56D5EAF-646C-39B1-BEC5-4790226CE143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9B4B95EA-8D9D-38B6-95E2-0B37CE13944B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{40F7A3DA-4D72-3573-B831-ED6C25B48BF6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,229 @@
+#pragma once
+
+#include "AdditiveOscillator.h"
+
+#include <math.h>
+#include <random>
+
+namespace LAMELLA_INST {
+
+	void AdditiveOscillator::noteOn(Message Msg) {
+
+		int startPartial = mStiffness * NUM_PARTIALS;
+
+		// Initialise temp arrays (startPartial would leave these uninitialised otherwise
+		memcpy(Amps, BaseAmps, sizeof(float) * NUM_PARTIALS);
+		memcpy(Decays, BaseDecays, sizeof(float) * NUM_PARTIALS);
+		memcpy(Ratios, BaseRatios, sizeof(float) * NUM_PARTIALS);
+
+		// Apply table adjustments
+		updatePartials(BaseAmps, BaseRatios, BaseDecays, Amps, Ratios, Decays, startPartial, Msg.velocity);
+		
+		calculateOrganic(Ratios, Amps, Decays);
+
+		setPartialFrequency(Msg, Ratios);
+		for (int i = 0; i < NUM_PARTIALS; i++) {
+			Partials[i].setAmplitude(Amps[i]);
+			Partials[i].setBlur(mBlur);
+			Partials[i].setAttackDecay(0.01, Decays[i]);
+			Partials[i].noteOn();
+		}
+	}
+	void AdditiveOscillator::updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, float velocity) {
+
+		calculateOddEven(baseAmps, outAmps, 0, velocity);
+		calculateBrightness(outAmps, outAmps, velocity);
+		calculateMetallic(baseRatios, outRatios, startPartial, velocity);
+		calculateDecays(outDecays, baseDecays, velocity);
+	}
+
+	/// <summary>
+	/// Helper to set all partials to their corresponding frequency
+	/// based on the ratio table, and a midi message in a Lamella Midi struct
+	/// </summary>
+	/// <param name="Msg"></param>
+	/// <param name="Table"></param>
+	void AdditiveOscillator::setPartialFrequency(Message Msg, float* Table) {
+		float baseFreq = noteNumToHz(Msg.noteNum);
+
+		for (int i = 0; i < NUM_PARTIALS; i++) {
+			Partials[i].setFrequencyHz(baseFreq * Table[i]);
+		}
+	}
+	/// <summary>
+	/// Stretches or compresses the partials according to the Metallic parameter.
+	/// Morph blends the stretch between a linear uniform stretch, and an exponential stretch
+	/// 0 = Same stretch amount for all partials relative to partial number
+	/// 1 = More stretch amount for each successive partial relative to partial number
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="output"></param>
+	/// <param name="fromPartial"></param>
+	/// <param name="velocity"></param>
+	void AdditiveOscillator::calculateMetallic(float* input, float* output, int fromPartial, float velocity) {
+		// Convert vel modifier to bipolar
+		float velMod = (mVelMetallic * 2.0f) - 1.0f;
+		float velWord = velMod * velocity;
+
+		// Map metallic parameter to range (0.5 is default, 0.2 will be neutral)
+		//TODO scale this so useless low values arent included
+		//TODO add parameter to mix distrobution with log curve
+		float mMetalAdj = (2.0f*mMetallic)-0.5f; // Uneven offset min -1, max 3
+
+		float stretchVal = 0.5 + (mMetalAdj); // 0.5 at default
+
+		if (fabsf(velMod) > 0.001f) {
+			stretchVal = 0.5 + (mMetalAdj * velWord);
+		}
+		
+		// apply, with a slight stretch for each successive partial
+
+		for (int i = fromPartial; i < NUM_PARTIALS; i++) {
+			float partialAmount = ((float)i / (float)NUM_PARTIALS);
+			partialAmount = powf(partialAmount, mMorph);
+
+			float currentStretch = stretchVal + (partialAmount * 0.2);
+
+			output[i] = powf(input[i], currentStretch);
+		}
+	}
+	/// <summary>
+	/// Uses mStruct parameter to mix between all even (0) and all odd (1) harmonics
+	/// </summary>
+	/// <param name="AmpInputs"></param>
+	/// <param name="AmpOutputs"></param>
+	/// <param name="fromPartial"></param>
+	/// <param name="velocity"></param>
+	void AdditiveOscillator::calculateOddEven(float* AmpInputs, float* AmpOutputs, int fromPartial, float velocity) {
+		// Convert vel modifier to bipolar
+		float velMod = (mVelStructure * 2) - 1;
+		float velWord = velMod * velocity;
+
+		
+		// Base
+		float oddLevel = (mStructure);
+		float evenLevel = 1.0f - mStructure;
+		
+		// Vel check
+		float structVel = mStructure * velWord;
+		// If velocity amount not zero...
+		if (fabsf(structVel) > 0.001f) {
+			// Clamp
+			if (structVel > 1.0f) structVel = 1;
+			if (structVel < 0.0f) structVel = 0;
+
+			oddLevel = (structVel);
+			evenLevel = 1.0f - structVel;
+
+		}
+
+
+		for (int i = fromPartial; i < NUM_PARTIALS; i++) {
+			if (((i + 1) % 2) == 0) {
+				AmpOutputs[i] = AmpInputs[i] * evenLevel;
+			}
+			else {
+				AmpOutputs[i] = AmpInputs[i] * oddLevel;
+			}
+		}
+	}
+	/// <summary>
+	/// Applies a tilt to partials, acting like a tilt EQ
+	/// uses mBrightness parameter
+	/// </summary>
+	/// <param name="AmpInputs"></param>
+	/// <param name="AmpOutputs"></param>
+	/// <param name="velocity"></param>
+	void AdditiveOscillator::calculateBrightness(float* AmpInputs, float* AmpOutputs, float velocity) {
+
+		// A tilt on the amp levels.
+
+		float maxAmp = 0;
+		for (int i = 0; i < NUM_PARTIALS; i++) {
+			float mappedValue = (mBrightness - 0.5f) * 2.0f;
+			float position = (static_cast<float>(i) / (NUM_PARTIALS - 1)) - 0.5f;
+
+			// Convert vel modifier to bipolar
+			float velMod = (mVelBrightness * 2) - 1;
+			float velWord = velMod * velocity;
+
+			float multiplier = 1.0f + (mappedValue * position * 2.0f);
+			if (fabsf(velMod) > 0.001f) {
+				multiplier = 1.0f + (mappedValue * position * 2.0f * velWord);
+			}
+			
+
+
+			AmpOutputs[i] = AmpInputs[i] * multiplier;
+
+			if (AmpOutputs[i] > maxAmp) {
+				maxAmp = AmpOutputs[i];
+			}
+
+		}
+
+		float normalizationFactor = (maxAmp > 1.0f) ? 1.0f / maxAmp : 1.0f;
+
+		for (int i = 0; i < NUM_PARTIALS; i++) {
+			AmpOutputs[i] = AmpOutputs[i] * normalizationFactor;
+		}
+
+
+	}
+	/// <summary>
+	/// Performs random changes to ratios, amps and decays
+	/// Adjustable with respective mXOrganic parameter
+	/// </summary>
+	/// <param name="Ratios"></param>
+	/// <param name="Amps"></param>
+	/// <param name="Decays"></param>
+	/// <param name="startPartial"></param>
+	void AdditiveOscillator::calculateOrganic(float* Ratios, float* Amps, float* Decays, int startPartial) {
+
+		// Ratio
+		for (int i = startPartial; i < NUM_PARTIALS; i++) {
+			float randOffset = (float)rand() / (float)RAND_MAX;
+			randOffset *= mOrganicRatio;
+			Ratios[i] = Ratios[i] + randOffset;
+		}
+
+		// Amp
+		const float maxAmp = 1.0f;
+		for (int i = startPartial; i < NUM_PARTIALS; i++) {
+			float randOffset = (float)rand() / (float)RAND_MAX;
+			randOffset *= mOrganicAmp;
+			Amps[i] = Amps[i] + randOffset;
+			Amps[i] >= maxAmp ? maxAmp : Amps[i];
+		}
+
+		// Decay
+		for (int i = startPartial; i < NUM_PARTIALS; i++) {
+			float randOffset = (float)rand() / (float)RAND_MAX;
+			randOffset *= mOrganicDecay;
+			Decays[i] = Decays[i] + randOffset;
+		}
+	}
+	/// <summary>
+	/// Extends or reduces decays from the initial baseDecays amounts
+	/// Uses mDecayOffset parameter
+	/// </summary>
+	/// <param name="Decays"></param>
+	/// <param name="BaseDecays"></param>
+	/// <param name="velocity"></param>
+	/// <param name="startPartial"></param>
+	void AdditiveOscillator::calculateDecays(float* Decays, const float* BaseDecays, float velocity, int startPartial) {
+		
+		float offsetScaled = (mDecayOffset * 2) - 1.0f;
+		
+		if (fabsf(mVelDecays) > 0.001) {
+			offsetScaled *= velocity * mVelDecays;
+		}
+
+		for (int i = 0; i < NUM_PARTIALS; i++) {
+
+			Decays[i] = BaseDecays[i] * (1.0 + offsetScaled);
+		}
+	}
+
+}
+
