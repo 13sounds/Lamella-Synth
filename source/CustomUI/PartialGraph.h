@@ -43,6 +43,7 @@ namespace VSTGUI {
 		void setDecayData(const float* values, int num_partials) {
 			for (int i = 0; i < numPartials; i++) {
 				partialDecays[i] = values[i];
+
 			}
 		}
 
