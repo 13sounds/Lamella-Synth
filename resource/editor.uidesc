@@ -70,7 +70,7 @@
 			},
 			"UIAttributesController": {},
 			"UIViewCreatorDataSource": {
-				"SelectedRow": "24"
+				"SelectedRow": "8"
 			},
 			"UIGradientsDataSource": {
 				"SelectedRow": "-1"
@@ -1868,7 +1868,7 @@
 									"min-value": "0",
 									"mouse-enabled": "true",
 									"opacity": "1",
-									"origin": "460, 0",
+									"origin": "420, 0",
 									"round-rect-radius": "6",
 									"shadow-color": "~ RedCColor",
 									"size": "40, 40",
@@ -1905,7 +1905,7 @@
 									"min-value": "0",
 									"mouse-enabled": "true",
 									"opacity": "1",
-									"origin": "420, 0",
+									"origin": "380, 0",
 									"round-rect-radius": "6",
 									"shadow-color": "~ RedCColor",
 									"size": "40, 40",
@@ -1925,6 +1925,38 @@
 									"value-precision": "2",
 									"wants-focus": "false",
 									"wheel-inc-value": "0.1"
+								}
+							},
+							"CKnob": {
+								"attributes": {
+									"angle-range": "270",
+									"angle-start": "135",
+									"circle-drawing": "true",
+									"class": "CKnob",
+									"control-tag": "Level",
+									"corona-color": "Struct",
+									"corona-dash-dot": "false",
+									"corona-dash-dot-lengths": "1.26,0.1",
+									"corona-drawing": "true",
+									"corona-from-center": "true",
+									"corona-inset": "4",
+									"corona-inverted": "false",
+									"corona-line-cap-butt": "false",
+									"corona-outline": "true",
+									"corona-outline-width-add": "2",
+									"handle-color": "New",
+									"handle-line-width": "2",
+									"handle-shadow-color": "FGGrey",
+									"knob-range": "200",
+									"opacity": "1",
+									"origin": "460, 6",
+									"size": "30, 30",
+									"skip-handle-drawing": "true",
+									"transparent": "false",
+									"value-inset": "3",
+									"wants-focus": "true",
+									"wheel-inc-value": "0.1",
+									"zoom-factor": "1.5"
 								}
 							}
 						}

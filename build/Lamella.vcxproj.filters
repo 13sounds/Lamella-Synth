@@ -13,12 +13,21 @@
     <ClCompile Include="C:\Dev\VST_SDK\vst3sdk\public.sdk\source\main\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AdditiveSynth\AdditiveOscillator.cpp" />
-    <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp" />
-    <ClCompile Include="..\source\Helpers\AudioHelpers.cpp" />
-    <ClCompile Include="..\source\Instrument\ParamRegistration.cpp" />
-    <ClCompile Include="..\source\CustomUI\UIFactory.cpp" />
-    <ClCompile Include="..\source\CustomUI\PartialGraph.cpp" />
+    <ClCompile Include="..\source\AdditiveSynth\AdditiveOscillator.cpp">
+      <Filter>Additive Osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Helpers\AudioHelpers.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp">
+      <Filter>Partial</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CustomUI\UIFactory.cpp">
+      <Filter>Custom UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CustomUI\PartialGraph.cpp">
+      <Filter>Custom UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\version.h">
@@ -33,18 +42,40 @@
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\AdditiveSynth\AdditiveOscillator.h" />
-    <ClInclude Include="..\source\Partial\ImpulseEnvelope.h" />
-    <ClInclude Include="..\source\Helpers\AudioHelpers.h" />
-    <ClInclude Include="..\source\Helpers\DataExchangeInfo.h" />
-    <ClInclude Include="..\source\Instrument\ParamRegistration.h" />
-    <ClInclude Include="..\source\Instrument\LamellaInstrument.h" />
-    <ClInclude Include="..\source\Instrument\LamellaVoice.h" />
-    <ClInclude Include="..\source\Partial\Partial.h" />
-    <ClInclude Include="..\source\Partial\Oscillator.h" />
-    <ClInclude Include="..\source\CustomUI\TestSubController.h" />
-    <ClInclude Include="..\source\CustomUI\PartialGraph.h" />
     <ClInclude Include="..\source\Instrument\ParamIDs.h.h" />
+    <ClInclude Include="..\source\AdditiveSynth\AdditiveOscillator.h">
+      <Filter>Additive Osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Helpers\AudioHelpers.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Helpers\DataExchangeInfo.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial\ImpulseEnvelope.h">
+      <Filter>Partial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial\Oscillator.h">
+      <Filter>Partial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial\Partial.h">
+      <Filter>Partial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Instrument\LamellaInstrument.h">
+      <Filter>Instrument</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Instrument\LamellaVoice.h">
+      <Filter>Instrument</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Instrument\ParamRegistration.h">
+      <Filter>Instrument</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CustomUI\TestSubController.h">
+      <Filter>Custom UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CustomUI\PartialGraph.h">
+      <Filter>Custom UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\editor.uidesc">
@@ -78,6 +109,21 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{40F7A3DA-4D72-3573-B831-ED6C25B48BF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instrument">
+      <UniqueIdentifier>{0705750b-714c-4d77-9520-c58acc719b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Additive Osc">
+      <UniqueIdentifier>{3f69dfd0-49bb-46fd-aa2f-0c9c3581d29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Partial">
+      <UniqueIdentifier>{328a4f50-3aa7-4718-a883-602a073bdf33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{adf134b4-0dde-41f2-9f9e-c0714bfd94f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Custom UI">
+      <UniqueIdentifier>{cd50f76a-b4a9-4845-b8ec-c658cad1df6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

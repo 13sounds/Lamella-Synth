@@ -486,7 +486,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\source\CustomUI\PartialGraph.cpp" />
     <ClCompile Include="..\source\CustomUI\UIFactory.cpp" />
     <ClCompile Include="..\source\Helpers\AudioHelpers.cpp" />
-    <ClCompile Include="..\source\Instrument\ParamRegistration.cpp" />
     <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp" />
     <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\processor.cpp" />
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.h" />

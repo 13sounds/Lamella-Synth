@@ -35,7 +35,8 @@ namespace LAMELLA_INST {
 			mixBuffers(Buffer, VoiceBuffers, NUM_VOICES, Info);
 
 			//Master Level control
-			
+			const float maxLevelScale = 4.0f;
+			multBuffer(Buffer, mMasterLevel * maxLevelScale, Info);
 		}
 		/// <summary>
 		/// Get parameter object from processor

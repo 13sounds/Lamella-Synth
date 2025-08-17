@@ -30,7 +30,7 @@ namespace LAMELLA_INST {
 
 	inline void registerParameters(Steinberg::Vst::ParameterContainer& parameters) {
 
-		parameters.addParameter(STR16("Level"), STR16(""), 0, 1, 1, ParamIDs::kLevel);
+		parameters.addParameter(STR16("Level"), STR16(""), 0, 0.5, 1, ParamIDs::kLevel);
 		parameters.addParameter(STR16("Blur"), STR16(""), 0, 0.0, 1, ParamIDs::kBlur);
 
 
