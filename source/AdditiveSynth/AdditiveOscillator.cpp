@@ -17,7 +17,7 @@ namespace LAMELLA_INST {
 		memcpy(Ratios, BaseRatios, sizeof(float) * NUM_PARTIALS);
 
 		// Apply table adjustments
-		updatePartials(BaseAmps, BaseRatios, BaseDecays, Amps, Ratios, Decays, startPartial, Msg.velocity);
+		updatePartials(BaseAmps, BaseRatios, BaseDecays, Amps, Ratios, Decays, startPartial, Msg);
 		
 		calculateOrganic(Ratios, Amps, Decays);
 
@@ -29,12 +29,12 @@ namespace LAMELLA_INST {
 			Partials[i].noteOn();
 		}
 	}
-	void AdditiveOscillator::updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, float velocity) {
+	void AdditiveOscillator::updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, Message Msg) {
 
-		calculateOddEven(baseAmps, outAmps, 0, velocity);
-		calculateBrightness(outAmps, outAmps, velocity);
-		calculateMetallic(baseRatios, outRatios, startPartial, velocity);
-		calculateDecays(outDecays, baseDecays, velocity);
+		calculateOddEven(baseAmps, outAmps, 0, Msg.velocity);
+		calculateBrightness(outAmps, outAmps, Msg.velocity);
+		calculateMetallic(baseRatios, outRatios, startPartial, Msg);
+		calculateDecays(outDecays, baseDecays, Msg.velocity);
 	}
 
 	/// <summary>
@@ -60,15 +60,22 @@ namespace LAMELLA_INST {
 	/// <param name="output"></param>
 	/// <param name="fromPartial"></param>
 	/// <param name="velocity"></param>
-	void AdditiveOscillator::calculateMetallic(float* input, float* output, int fromPartial, float velocity) {
+	void AdditiveOscillator::calculateMetallic(float* input, float* output, int fromPartial, Message Msg) {
 		// Convert vel modifier to bipolar
 		float velMod = (mVelMetallic * 2.0f) - 1.0f;
-		float velWord = velMod * velocity;
+		float velWord = velMod * Msg.velocity;
 
-		// Map metallic parameter to range (0.5 is default, 0.2 will be neutral)
-		//TODO scale this so useless low values arent included
-		//TODO add parameter to mix distrobution with log curve
-		float mMetalAdj = (2.0f*mMetallic)-0.5f; // Uneven offset min -1, max 3
+		// Create local keytrack variable, scale keytrack value to -1 : 1
+		float keyMod = (2.0 * mKeyMetallic) - 1.0f;
+		float keyValue = Msg.noteNum / 127.0f; // Scale current note to max note num (0 - 1)
+		// create intermediate value incorporating set value and keytracked. Squared for scaling
+		float mMetalWPitch = mMetallic + (keyMod * mMetallic * mMetallic * keyValue );
+
+		// Map metallic parameter to range
+		float mMetalAdj = (2.0f* mMetalWPitch)-0.5f; // Uneven offset min -1, max 3
+
+
+	
 
 		float stretchVal = 0.5 + (mMetalAdj); // 0.5 at default
 
@@ -76,11 +83,12 @@ namespace LAMELLA_INST {
 			stretchVal = 0.5 + (mMetalAdj * velWord);
 		}
 		
-		// apply, with a slight stretch for each successive partial
+		// apply to partials
+		// mMorph varies between linear (at mMorph 0.5) to exponential
 
 		for (int i = fromPartial; i < NUM_PARTIALS; i++) {
 			float partialAmount = ((float)i / (float)NUM_PARTIALS);
-			partialAmount = powf(partialAmount, mMorph);
+			partialAmount = powf(partialAmount, mMorph + 0.5f);
 
 			float currentStretch = stretchVal + (partialAmount * 0.2);
 

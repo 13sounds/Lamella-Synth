@@ -75,6 +75,7 @@ namespace LAMELLA_INST {
 		float mAmp = 0.5;
 		float mBlur = 0.0f;
 
+
 		float getNext() {
 
 			if (mFrequencyHz < 1.0f) {
@@ -103,9 +104,25 @@ namespace LAMELLA_INST {
 			if (currentPhase > 1.0f) {
 				currentPhase = startPhase;
 			}
-			return sinf((M_PI * 2.0f * currentPhase) + moddedPhase);
+			return fastSin((M_PI * 2.0f * currentPhase) + moddedPhase);
 
 		}
+		/// <summary>
+		/// Sine approx optimised for 0 to 1
+		/// </summary>
+		/// <param name="x"></param>
+		/// <returns></returns>
+		float fastSin(float x) {
+			float x3 = x * x * x;
+			float x5 = x3 * x * x;
+
+			return x - (x3 / 6.0f) + (x5 / 120.0f);
+		}
+
+
+		
+
+
 	};
 };
 

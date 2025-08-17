@@ -76,6 +76,12 @@ namespace LAMELLA_INST {
 				AdditiveOsc.setVelocityDecayAmount(params.vVelDecay.getExplicit());
 			}
 
+			// Key
+			if (params.vKeyMetal.isDirty()) {
+				AdditiveOsc.setKeyMetallic(params.vKeyMetal.getExplicit());
+			}
+
+
 			if (params.vStiffness.isDirty()) {
 				AdditiveOsc.setStiffnessAmount(params.vStiffness.getExplicit());
 			}
@@ -92,7 +98,7 @@ namespace LAMELLA_INST {
 		SetupInfo Setup;
 		AdditiveOscillator AdditiveOsc;
 
-
+	
 	};
 
 

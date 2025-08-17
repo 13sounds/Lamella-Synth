@@ -24,6 +24,8 @@ namespace LAMELLA_INST {
 		kVelBright,
 		kVelDecays,
 
+		kKeyMetal,
+
 		kStiffness,
 
 	};
@@ -56,6 +58,8 @@ namespace LAMELLA_INST {
 		parameters.addParameter(STR16("Vel Metal"), STR16(""), 0, 0.5, 1, ParamIDs::kVelMetal);
 		parameters.addParameter(STR16("Vel Bright"), STR16(""), 0, 0.5, 1, ParamIDs::kVelBright);
 		parameters.addParameter(STR16("Vel Decays"), STR16(""), 0, 0.5, 1, ParamIDs::kVelDecays);
+
+		parameters.addParameter(STR16("Key Metal"), STR16(""), 0, 0.5, 1, ParamIDs::kKeyMetal);
 
 	}
 	/// <summary>
@@ -165,6 +169,10 @@ namespace LAMELLA_INST {
 				vVelDecay.set(value);
 				break;
 
+			case kKeyMetal:
+				vKeyMetal.set(value);
+				break;
+
 			case kStiffness:
 				vStiffness.set(value);
 				break;
@@ -189,6 +197,8 @@ namespace LAMELLA_INST {
 			vVelMetal.setClean();
 			vVelBright.setClean();
 			vVelDecay.setClean();
+
+			vKeyMetal.setClean();
 
 			vStiffness.setClean();
 		}
@@ -215,6 +225,8 @@ namespace LAMELLA_INST {
 		ParamUnit vVelMetal{ kVelMetal, 0.5, false };
 		ParamUnit vVelBright{ kVelBright, 0.5, false };
 		ParamUnit vVelDecay{ kVelDecays, 0.5, false };
+
+		ParamUnit vKeyMetal{ kKeyMetal, 0.5, false };
 
 		ParamUnit vStiffness{ kStiffness, 0.0, false };
 

@@ -30,6 +30,8 @@ namespace LAMELLA_INST {
 				BaseAmps[i] = 1.0f;
 				BaseDecays[i] = 1.0f / (i + 1);
 			}
+
+			
 		}
 		void getBlock(AudioBuffer& buffer, ProcessInfo Info) {
 
@@ -100,6 +102,12 @@ namespace LAMELLA_INST {
 		void setVelocityDecayAmount(float value) {
 			mVelDecays = value;
 		}
+
+		// Key track
+		void setKeyMetallic(float value) {
+			mKeyMetallic = value;
+		}
+
 		void noteOn(Message Msg);
 
 		/// <summary>
@@ -112,12 +120,14 @@ namespace LAMELLA_INST {
 		void getValuesForUI(float* Amps, float* Ratios, float* Decays) {
 
 			int startPartial = mStiffness * NUM_PARTIALS;
-			const float velMax = 1.0f;
+			
 			memcpy(Amps, BaseAmps, sizeof(float) * NUM_PARTIALS);
 			memcpy(Ratios, BaseRatios, sizeof(float) * NUM_PARTIALS);
 			memcpy(Decays, BaseDecays, sizeof(float) * NUM_PARTIALS);
 
-			updatePartials(BaseAmps, BaseRatios,BaseDecays, Amps, Ratios, Decays, startPartial, velMax);
+			DummyMsg.noteNum = 60;
+			DummyMsg.velocity = 1;
+			updatePartials(BaseAmps, BaseRatios,BaseDecays, Amps, Ratios, Decays, startPartial, DummyMsg);
 		
 
 		}
@@ -127,6 +137,8 @@ namespace LAMELLA_INST {
 		Partial Partials[NUM_PARTIALS];
 		AudioBuffer PartialMix;
 		AudioBuffer PartialBuffers[NUM_PARTIALS];
+
+		Message DummyMsg; // replica for UI
 
 		float Ratios[NUM_PARTIALS];
 		float BaseRatios[NUM_PARTIALS];
@@ -153,11 +165,13 @@ namespace LAMELLA_INST {
 		float mVelBrightness = 0.5;
 		float mVelDecays = 0.5;
 
+		float mKeyMetallic = 0.5;
+
 		float mStiffness = 0.0f;
 
-		void updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, float velocity);
+		void updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, Message Msg);
 		void setPartialFrequency(Message Msg, float* Table);
-		void calculateMetallic(float* input, float* output, int fromPartial = 1, float velocity = 0);
+		void calculateMetallic(float* input, float* output, int fromPartial, Message Msg);
 		void calculateOddEven(float* AmpInputs, float* AmpOutputs, int fromPartial = 1, float velocity = 0);
 		void calculateBrightness(float* AmpInputs, float* AmpOutputs, float velocity = 0);
 		void calculateOrganic(float* Ratios, float* Amps, float* Decays, int startPartial = 1);
