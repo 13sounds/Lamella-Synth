@@ -177,7 +177,7 @@ namespace LAMELLA_INST {
 			if (auto block = toDataBlock(currentExchangeBlock)) {
 
 
-				memcpy(block, Instrument[0].getUIData(), sizeof(UIInfoBlock));
+				memcpy(block, &Instrument[0].getUIData(), sizeof(UIInfoBlock));
 
 				if (!dataExchange->sendCurrentBlock())
 				{

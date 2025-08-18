@@ -75,7 +75,7 @@ namespace LAMELLA_INST {
 		/// access to internal insturment data for the UI
 		/// </summary>
 		/// <returns> UIInfoBlock from DataExchangeinfo.h</returns>
-		UIInfoBlock* getUIData() {
+		UIInfoBlock getUIData() {
 
 			// get info from voice 1
 			float Amps[NUM_PARTIALS];
@@ -84,14 +84,14 @@ namespace LAMELLA_INST {
 
 			Voices[0].getValuesForUI(Amps, Ratios, Decays);
 
-			UIInfoBlock* Block = new UIInfoBlock;
+			UIInfoBlock Block;
 
 			for (int i = 0; i < NUM_PARTIALS; i++) {
 
-				Block->AmpData[i] = Amps[i];
-				Block->RatioData[i] = Ratios[i];
-				Block->DecayData[i] = Decays[i];
-				Block->SetupData[Block->kNumPartials] = NUM_PARTIALS;
+				Block.AmpData[i] = Amps[i];
+				Block.RatioData[i] = Ratios[i];
+				Block.DecayData[i] = Decays[i];
+				Block.SetupData[Block.kNumPartials] = NUM_PARTIALS;
 
 			}
 

@@ -108,7 +108,7 @@ namespace LAMELLA_INST {
 
 		}
 		/// <summary>
-		/// Sine approx optimised for 0 to 1
+		/// Sine approximation
 		/// </summary>
 		/// <param name="x"></param>
 		/// <returns></returns>
