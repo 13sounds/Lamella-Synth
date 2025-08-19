@@ -476,6 +476,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\source\Instrument\LamellaVoice.h" />
     <ClInclude Include="..\source\Instrument\ParamIDs.h.h" />
     <ClInclude Include="..\source\Instrument\ParamRegistration.h" />
+    <ClInclude Include="..\source\MidiHandler.h" />
     <ClInclude Include="..\source\Partial\ImpulseEnvelope.h" />
     <ClInclude Include="..\source\Partial\Oscillator.h" />
     <ClInclude Include="..\source\Partial\Partial.h" />

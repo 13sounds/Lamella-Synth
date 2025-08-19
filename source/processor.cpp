@@ -80,23 +80,7 @@ namespace LAMELLA_INST {
 
 	void LamellaProcessor::getMidi(Steinberg::Vst::IEventList* Events) {
 
-		int numMsgs = Events->getEventCount();
-		if (!numMsgs) {
-			return;
-		}
-
-		Vst::Event Msg;
-
-		for (int i = 0; i < numMsgs; i++) {
-			Events->getEvent(i, Msg);
-
-			if (Msg.type == Vst::Event::kNoteOnEvent) {
-				Instrument[0].noteOn(Msg.noteOn.pitch, Msg.noteOn.velocity);
-				Instrument[1].noteOn(Msg.noteOn.pitch, Msg.noteOn.velocity);
-
-			}
-		}
-
+	
 
 	}
 
@@ -130,11 +114,7 @@ namespace LAMELLA_INST {
 		Instrument[1].getParameters(c2Params);
 
 
-		//--- Here you have to implement your processing
-		//-------MIDI-------------------------------------
-		if (data.inputEvents) {
-			getMidi(data.inputEvents);
-		}
+
 		//-------------------------------------------------
 		if (data.numSamples > 0)
 		{
@@ -146,16 +126,24 @@ namespace LAMELLA_INST {
 				return kResultOk;
 			}
 
+			//-------MIDI-------------------------------------
+			// Send data to midi handler
+			if (data.inputEvents) {
+				MidiModule.setEventQueue(data.inputEvents);
+				MidiModule.setInstrumentPointer(&Instrument[0]);
 
+				float* pBufferL = data.outputs[0].channelBuffers32[0];
 
+				MidiModule.processMidi(data, pBufferL);
 
-			ProcessInfo Info(data.numSamples, 0);
-
-			for (int i = 0; i < data.outputs[0].numChannels; i++) {
-				float* pBuffer = data.outputs[0].channelBuffers32[i];
-				Instrument[i].getBlock(pBuffer, Info);
-
+				// Copy to right channel
+				float* pBufferR = data.outputs[0].channelBuffers32[1];
+				memcpy(pBufferR, pBufferL, sizeof(float) * data.numSamples);
 			}
+
+			
+		
+
 
 
 

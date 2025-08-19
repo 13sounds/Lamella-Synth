@@ -76,6 +76,9 @@
     <ClInclude Include="..\source\CustomUI\PartialGraph.h">
       <Filter>Custom UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\MidiHandler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\editor.uidesc">

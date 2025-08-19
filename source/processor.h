@@ -10,6 +10,7 @@
 #include <vector>
 #include "Instrument/LamellaInstrument.h"
 #include "Instrument/ParamRegistration.h"
+#include "MidiHandler.h"
 
 namespace LAMELLA_INST {
 
@@ -64,6 +65,8 @@ namespace LAMELLA_INST {
 		//------------------------------------------------------------------------
 	protected:
 		LamellaInstrument Instrument[2];
+
+		MidiHandler MidiModule;
 
 		LamellaParams c1Params;
 		LamellaParams c2Params;
