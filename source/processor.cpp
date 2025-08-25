@@ -111,7 +111,7 @@ namespace LAMELLA_INST {
 
 		// Send to instrument
 		Instrument[0].getParameters(c1Params);
-		Instrument[1].getParameters(c2Params);
+	
 
 
 
@@ -129,12 +129,10 @@ namespace LAMELLA_INST {
 			//-------MIDI-------------------------------------
 			// Send data to midi handler
 			if (data.inputEvents) {
-				MidiModule.setEventQueue(data.inputEvents);
-				MidiModule.setInstrumentPointer(&Instrument[0]);
-
+			
 				float* pBufferL = data.outputs[0].channelBuffers32[0];
 
-				MidiModule.processMidi(data, pBufferL);
+				MidiModule.processMidi(data, &Instrument[0], pBufferL);
 
 				// Copy to right channel
 				float* pBufferR = data.outputs[0].channelBuffers32[1];
@@ -164,8 +162,8 @@ namespace LAMELLA_INST {
 			UIInfoBlock* block = nullptr;
 			if (auto block = toDataBlock(currentExchangeBlock)) {
 
-
-				memcpy(block, &Instrument[0].getUIData(), sizeof(UIInfoBlock));
+				UIInfoBlock RxBlock = Instrument[0].getUIData();
+				memcpy(block, &RxBlock, sizeof(UIInfoBlock));
 
 				if (!dataExchange->sendCurrentBlock())
 				{

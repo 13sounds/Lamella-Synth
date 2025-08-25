@@ -4,18 +4,14 @@
 
 class MidiHandler {
 	public:
-		void setEventQueue(Steinberg::Vst::IEventList* events) {
-			Events = events;
-		}
-		void setInstrumentPointer(LAMELLA_INST::LamellaInstrument* instrument) {
-			Instrument = instrument;
-		}
+	
+
 		int nextMidiEvent(int index) {
 			Steinberg::Vst::Event Msg;
 			Events->getEvent(index, Msg);
 			return Msg.sampleOffset;
 		}
-		void handleEvent(Steinberg::Vst::Event& Msg) {
+		void handleEvent(Steinberg::Vst::Event& Msg, LAMELLA_INST::LamellaInstrument* Instrument) {
 	
 			if (Msg.type == Steinberg::Vst::Event::kNoteOnEvent) {
 				Instrument->noteOn(Msg.noteOn.pitch, Msg.noteOn.velocity);
@@ -23,8 +19,15 @@ class MidiHandler {
 			}
 		
 		}
+		/// <summary>
+		/// Checks midi and processes a block, sample accurate midi
+		/// TODO Clearer naming convention
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="Buffer"></param>
+		void processMidi(Steinberg::Vst::ProcessData& data, LAMELLA_INST::LamellaInstrument* Instrument, float* Buffer) {
 
-		void processMidi(Steinberg::Vst::ProcessData& data, float* Buffer) {
+			Events = data.inputEvents;
 
 			int numEvents = Events->getEventCount();
 			int nextEvent = 0;
@@ -43,7 +46,7 @@ class MidiHandler {
 
 				// Do the midi
 				Events->getEvent(i, Msg);
-				handleEvent(Msg);
+				handleEvent(Msg, Instrument);
 
 
 			}
@@ -66,8 +69,7 @@ class MidiHandler {
 
 
 	private:
-		Steinberg::Vst::IEventList* Events;
-		LAMELLA_INST::LamellaInstrument* Instrument;
+		Steinberg::Vst::IEventList* Events = nullptr;
 		LAMELLA_INST::ProcessInfo Info;
 
 

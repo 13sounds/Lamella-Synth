@@ -28,6 +28,10 @@ public:
 		
 		}
 
+		if (auto voiceDisplay = dynamic_cast<VSTGUI::CSegmentButton*>(view)) {
+			myVoiceDisplay = voiceDisplay;
+		}
+
 		return view;
 	};
 
@@ -36,7 +40,7 @@ public:
 	//void viewWillDelete(VSTGUI::CView* view) override;
 
 	// Public method your EditController will call
-	void sendDataToView(const float* amps, const float* ratios, const float* decays, int numPartials) {
+	void sendDataToGraphView(const float* amps, const float* ratios, const float* decays, int numPartials) {
 		if (myGraph) { // ALWAYS check if the pointer is valid!
 
 			myGraph->setNumPartials(numPartials);
@@ -52,10 +56,24 @@ public:
 		}
 	};
 
+	void sendInstInfoToView(float* inst_info) {
+
+		if (myVoiceDisplay) {
+			float numActive = inst_info[UIInfoBlock::kNumActiveVoices];
+
+			float asNormalised = numActive / inst_info[UIInfoBlock::kNumVoices];
+
+			myVoiceDisplay->setValueNormalized(asNormalised);
+			myVoiceDisplay->setDirty(true);
+
+		}
+
+	}
+
 
 private:
 	VSTGUI::PartialGraphView* myGraph = nullptr;
-	
+	VSTGUI::CSegmentButton* myVoiceDisplay = nullptr;
 
 
 

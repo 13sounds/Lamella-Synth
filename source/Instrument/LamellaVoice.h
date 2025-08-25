@@ -27,6 +27,9 @@ namespace LAMELLA_INST {
 
 			AdditiveOsc.noteOn(Msg);
 		}
+		bool isActive() const {
+			return AdditiveOsc.isActive();
+		}
 		void getParams(LamellaParams& params) {
 
 

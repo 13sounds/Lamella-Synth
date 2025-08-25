@@ -30,6 +30,7 @@ namespace LAMELLA_INST {
 		// Create function
 		static Steinberg::FUnknown* createInstance(void* /*context*/)
 		{
+			
 			return (Steinberg::Vst::IEditController*)new LamellaController;
 		}
 
@@ -73,6 +74,7 @@ namespace LAMELLA_INST {
 
 				return graphController;
 			}
+
 			return nullptr;
 		}
 
@@ -81,6 +83,7 @@ namespace LAMELLA_INST {
 		//------------------------------------------------------------------------
 	protected:
 		PartialGraphController* pGraphController = nullptr;
+		VSTGUI::CSegmentButton* pVoiceDisplay = nullptr;
 
 		Steinberg::Vst::DataExchangeReceiverHandler dataExchange{ this };
 
@@ -89,6 +92,7 @@ namespace LAMELLA_INST {
 		std::vector<float> RxPartialAmplitudes;
 		std::vector<float> RxPartialRatios;
 		std::vector<float> RxPartialDecays;
+		std::vector<float> RxInstInfo;
 	};
 
 	//------------------------------------------------------------------------

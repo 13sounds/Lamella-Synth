@@ -6,44 +6,9 @@
 #include <math.h>
 #include <algorithm>
 #include <Helpers/AudioHelpers.h>
+#include "Helpers/OnePoleFilter.h"
 
 namespace LAMELLA_INST {
-	/// <summary>
-	///  One pole filter, used as the decay stage of the envelope
-	/// </summary>
-	class OnePoleFilter {
-	public:
-		void setSampleRateBlockSize(SetupInfo Info) {
-			sampleRate = Info.sampleRate;
-			blockSize = Info.blockSize;
-			
-		}
-		void setTimeConstant(float time_s) {
-			assert(sampleRate > 1);
-			alpha = -1.0f / (time_s * sampleRate);
-			alpha = expf(alpha);
-		}
-		float getNext(float x) {
-			z1 = ((1.0f - alpha) * x) + (alpha * z1);
-			return z1;
-		}
-		void setInternalState(float value) {
-			z1 = value;
-		}
-		float getInternalState() const {
-			return z1;
-		}
-		void ResetState() {
-			z1 = 0;
-		}
-	private:
-		int sampleRate = -1;
-		int blockSize = -1;
-
-		float z1 = 0;
-		float alpha = 0;
-	};
-
 
 	/// <summary>
 	/// An Attack-Decay envelope using a one pole 
@@ -97,6 +62,13 @@ namespace LAMELLA_INST {
 		void getBlock(AudioBuffer& buffer, int num_samples, int start_index);
 		void applyBlock(AudioBuffer& buffer, int num_samples, int start_index);
 
+		bool isActive() const {
+			bool active = true;
+			if (currentStatus == kInactive) {
+				active = false;
+			}
+			return active;
+		}
 
 	private:
 		OnePoleFilter DecayFilter;

@@ -79,6 +79,12 @@
     <ClInclude Include="..\source\MidiHandler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\Helpers\OnePoleFilter.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial\ResonantSineOsc.h">
+      <Filter>Partial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\anees\Documents\VST DEV\Lamella\resource\editor.uidesc">

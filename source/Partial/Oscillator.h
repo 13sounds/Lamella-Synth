@@ -1,6 +1,6 @@
 #pragma once
 #include "Helpers/AudioHelpers.h"
-
+#include "Helpers/OnePoleFilter.h"
 
 namespace LAMELLA_INST {
 	class Oscillator
@@ -13,9 +13,12 @@ namespace LAMELLA_INST {
 			phaseIncrement = 1.0f / sampleRate;
 
 			FreqRangeHz = (maxFreqHz - minFreqHz);
+
+			LPFilter.setSampleRateBlockSize(Info);
+			LPFilter.setTimeConstant(0.005);
 		}
 		void getBlock(std::vector<float>& buffer, ProcessInfo Info) {
-
+			LPFilter.setTimeConstant(0.005);
 			for (int i = 0; i < Info.numSamples; i++) {
 				int index = i + Info.startIndex;
 				buffer[index] = getNext() * mAmp;
@@ -75,6 +78,7 @@ namespace LAMELLA_INST {
 		float mAmp = 0.5;
 		float mBlur = 0.0f;
 
+		OnePoleFilter LPFilter;
 
 		float getNext() {
 
@@ -82,9 +86,15 @@ namespace LAMELLA_INST {
 				return 0;
 			}
 
-			const float maxBlurMod = 1000.0f;
+			const float maxBlurMod = 100.0f;
 
-			float f = mFrequencyHz + (mBlur * maxBlurMod * ((float)rand() / (float)RAND_MAX));
+			// Generate and lowpass filter the noise
+			float noise = (2 * ((float)rand() / (float)RAND_MAX)) - 1.0f;
+			float blur = (mBlur * maxBlurMod * noise);
+			blur = LPFilter.getNext(blur);
+
+			// Add to frequency
+			float f = mFrequencyHz + blur;
 
 			currentPhase += (phaseIncrement * f);
 			startPhase = currentPhase - 1.0f;

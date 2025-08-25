@@ -91,11 +91,23 @@ namespace LAMELLA_INST {
 				Block.AmpData[i] = Amps[i];
 				Block.RatioData[i] = Ratios[i];
 				Block.DecayData[i] = Decays[i];
-				Block.SetupData[Block.kNumPartials] = NUM_PARTIALS;
+				
 
 			}
 
+			Block.SetupData[Block.kNumPartials] = NUM_PARTIALS;
+			Block.SetupData[Block.kNumVoices] = NUM_VOICES;
+			Block.SetupData[Block.kNumActiveVoices] = numActiveVoices();
+
 			return Block;
+		}
+
+		int numActiveVoices() const {
+			int numActive = 0;
+			for (int i = 0; i < NUM_VOICES; i++) {
+				numActive += Voices[i].isActive();
+			}
+			return numActive;
 		}
 		
 

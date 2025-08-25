@@ -59,6 +59,10 @@ namespace LAMELLA_INST {
 			return mCurrentFreqHz;
 		}
 
+		bool isActive() const {
+			return Env.isActive();
+		}
+
 	private:
 		SetupInfo Setup;
 		Oscillator Osc;

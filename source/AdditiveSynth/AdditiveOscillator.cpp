@@ -68,31 +68,21 @@ namespace LAMELLA_INST {
 		// Create local keytrack variable, scale keytrack value to -1 : 1
 		float keyMod = (2.0 * mKeyMetallic) - 1.0f;
 		float keyValue = Msg.noteNum / 127.0f; // Scale current note to max note num (0 - 1)
-		// create intermediate value incorporating set value and keytracked. Squared for scaling
-		float mMetalWPitch = mMetallic + (keyMod * mMetallic * mMetallic * keyValue );
-
-		// Map metallic parameter to range
-		float mMetalAdj = (2.0f* mMetalWPitch)-0.5f; // Uneven offset min -1, max 3
-
-
-	
-
-		float stretchVal = 0.5 + (mMetalAdj); // 0.5 at default
-
-		if (fabsf(velMod) > 0.001f) {
-			stretchVal = 0.5 + (mMetalAdj * velWord);
-		}
 		
-		// apply to partials
-		// mMorph varies between linear (at mMorph 0.5) to exponential
+		// Calculate stretch with piecewise linear to get usable range (1 at 0.5, 0 at 0, 4 at 1)
+		float stretch = 0;
+
+		if (mMetallic <= 0.5f) {
+			stretch = mMetallic + 0.5;
+		}
+		if (mMetallic > 0.5) {
+			stretch = (6.0f * mMetallic) - 2.0f;
+		}
 
 		for (int i = fromPartial; i < NUM_PARTIALS; i++) {
-			float partialAmount = ((float)i / (float)NUM_PARTIALS);
-			partialAmount = powf(partialAmount, mMorph + 0.5f);
-
-			float currentStretch = stretchVal + (partialAmount * 0.2);
-
-			output[i] = powf(input[i], currentStretch);
+			float partialAmount = powf(i, stretch) + (i * mMorph);
+			
+			output[i] = partialAmount ;
 		}
 	}
 	/// <summary>

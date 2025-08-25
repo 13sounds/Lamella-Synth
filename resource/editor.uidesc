@@ -71,7 +71,7 @@
 			},
 			"UIAttributesController": {},
 			"UIViewCreatorDataSource": {
-				"SelectedRow": "8"
+				"SelectedRow": "22"
 			},
 			"UIGradientsDataSource": {
 				"SelectedRow": "-1"
@@ -1958,6 +1958,32 @@
 									"wants-focus": "true",
 									"wheel-inc-value": "0.1",
 									"zoom-factor": "1.5"
+								}
+							},
+							"CSegmentButton": {
+								"attributes": {
+									"class": "CSegmentButton",
+									"default-value": "0.5",
+									"font": "~ NormalFont",
+									"frame-color": "~ BlackCColor",
+									"frame-width": "1",
+									"icon-text-margin": "0",
+									"max-value": "1",
+									"min-value": "0",
+									"mouse-enabled": "true",
+									"opacity": "1",
+									"origin": "180, 10",
+									"round-radius": "5",
+									"segment-names": "1,2,3,4,5,6,7,8",
+									"selection-mode": "Single",
+									"size": "200, 20",
+									"style": "horizontal",
+									"text-alignment": "center",
+									"text-color": "~ BlackCColor",
+									"text-color-highlighted": "Bright",
+									"transparent": "false",
+									"wants-focus": "true",
+									"wheel-inc-value": "0.1"
 								}
 							}
 						}

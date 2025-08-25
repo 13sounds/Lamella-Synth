@@ -31,7 +31,7 @@ namespace LAMELLA_INST {
 		RxPartialAmplitudes.resize(16);
 		RxPartialRatios.resize(16);
 		RxPartialDecays.resize(16);
-
+		RxInstInfo.resize(16); 
 
 		return result;
 	}
@@ -80,8 +80,11 @@ namespace LAMELLA_INST {
 		{
 			// create your editor here and return a IPlugView ptr of it
 			auto* view = new VSTGUI::VST3Editor(this, "view", "editor.uidesc");
+			setKnobMode(Steinberg::Vst::KnobModes::kLinearMode);
 			return view;
 		}
+
+		
 		return nullptr;
 	}
 
@@ -125,15 +128,18 @@ namespace LAMELLA_INST {
 					RxPartialDecays[i] = dataBlock->DecayData[i];
 				}
 
+				memcpy(RxInstInfo.data(), dataBlock->SetupData, sizeof(float) * NUM_INFO_VALS);
+
 			}
 
 		}
 
 		if (pGraphController) {
-			pGraphController->sendDataToView(RxPartialAmplitudes.data(), RxPartialRatios.data(), RxPartialDecays.data(), numPartials);
-
+			pGraphController->sendDataToGraphView(RxPartialAmplitudes.data(), RxPartialRatios.data(), RxPartialDecays.data(), numPartials);
+			//pGraphController->sendInstInfoToView(RxInstInfo.data());
 		}
-
+		
+		
 
 	}
 	//------------------------------------------------------------------------

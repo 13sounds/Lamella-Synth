@@ -54,6 +54,22 @@ namespace LAMELLA_INST {
 
 		}
 
+		/// <summary>
+		/// Checks if any partials' envelopes
+		/// are active
+		/// </summary>
+		/// <returns></returns>
+		bool isActive() const {
+			for (int i = 0; i < NUM_PARTIALS; i++) {
+				if (Partials[i].isActive()) {
+					return true;
+				}
+				
+			}
+
+			return false;
+		}
+
 		void setMetallicAmount(float value) {
 			mMetallic = value;
 		}
