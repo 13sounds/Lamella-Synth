@@ -184,7 +184,7 @@ namespace LAMELLA_INST {
 		//--- called before any processing ----
 		Instrument[0].getSampleRateBlockSize(newSetup.sampleRate, newSetup.maxSamplesPerBlock);
 		Instrument[1].getSampleRateBlockSize(newSetup.sampleRate, newSetup.maxSamplesPerBlock);
-
+		Instrument[0].getParameters(c1Params);
 		return AudioEffect::setupProcessing(newSetup);
 	}
 

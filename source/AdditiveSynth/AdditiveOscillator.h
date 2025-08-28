@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Helpers/AudioHelpers.h"
-#include "Partial/Partial.h"
+#include "Partial_Resonant/Partial.h"
 
 
 
@@ -37,12 +37,16 @@ namespace LAMELLA_INST {
 
 			// If a partial is above nyquist, skip and count
 			float nyQuist = Setup.sampleRate / 2.0f;
-			int numOverNyquist = 0;
+			int numInactive = 0;
 			for (int i = 0; i < NUM_PARTIALS; i++) {
 
 				if (Partials[i].getFreqHz() > nyQuist) {
-					numOverNyquist++;
-					continue;
+					numInactive++;
+					continue; // don't get block if over nyquist
+				}
+				if (Partials[i].isActive() == false) {
+					numInactive++;
+					continue; // don't get block if inactive but not over nyquist
 				}
 
 
@@ -50,7 +54,7 @@ namespace LAMELLA_INST {
 			}
 
 			// Mix down, normalise to only active partials
-			mixBuffers(buffer, PartialBuffers, NUM_PARTIALS - numOverNyquist, Info);
+			mixBuffers(buffer, PartialBuffers, NUM_PARTIALS - numInactive, Info);
 
 		}
 
@@ -150,7 +154,7 @@ namespace LAMELLA_INST {
 
 	private:
 		SetupInfo Setup;
-		Partial Partials[NUM_PARTIALS];
+		ResonantPartial Partials[NUM_PARTIALS];
 		AudioBuffer PartialMix;
 		AudioBuffer PartialBuffers[NUM_PARTIALS];
 
@@ -165,7 +169,7 @@ namespace LAMELLA_INST {
 		float BaseDecays[NUM_PARTIALS];
 		float Decays[NUM_PARTIALS];
 
-		float mDecayOffset = 0.0f;
+		float mDecayOffset = 0.5f;
 		float mMetallic = 0;
 		float mBlur = 0.0f;
 		float mMorph = 0.5;
@@ -186,7 +190,7 @@ namespace LAMELLA_INST {
 		float mStiffness = 0.0f;
 
 		void updatePartials(float* baseAmps, float* baseRatios, float* baseDecays, float* outAmps, float* outRatios, float* outDecays, int startPartial, Message Msg);
-		void setPartialFrequency(Message Msg, float* Table);
+		void setPartialFrequency(int partial_num, Message Msg, float ratio);
 		void calculateMetallic(float* input, float* output, int fromPartial, Message Msg);
 		void calculateOddEven(float* AmpInputs, float* AmpOutputs, int fromPartial = 1, float velocity = 0);
 		void calculateBrightness(float* AmpInputs, float* AmpOutputs, float velocity = 0);

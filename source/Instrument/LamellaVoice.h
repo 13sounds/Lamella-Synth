@@ -18,7 +18,7 @@ namespace LAMELLA_INST {
 		void getSampleRateBlockSize(SetupInfo Setup) {
 			this->Setup = Setup;
 			AdditiveOsc.getSampleRateBlockSize(Setup);
-
+			
 		}
 		void getBlock(AudioBuffer& Buffer, ProcessInfo Info) {
 			AdditiveOsc.getBlock(Buffer, Info);

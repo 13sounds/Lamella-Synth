@@ -21,11 +21,21 @@ namespace LAMELLA_INST {
 		
 		calculateOrganic(Ratios, Amps, Decays);
 
-		setPartialFrequency(Msg, Ratios);
+		float freqThreshold = (Setup.sampleRate / 2.0) - 1000.0; //Nyquist minus clearance
 		for (int i = 0; i < NUM_PARTIALS; i++) {
+
+			// Check Nyquist, skip if over
+			float thisPartialHz = noteNumToHz(Msg.noteNum) * Ratios[i];
+			
+			if (thisPartialHz >= freqThreshold) {
+				continue; 
+			}
+
+
 			Partials[i].setAmplitude(Amps[i]);
 			Partials[i].setBlur(mBlur);
-			Partials[i].setAttackDecay(0.01, Decays[i]);
+			Partials[i].setDecay(Decays[i]);
+			setPartialFrequency(i, Msg, Ratios[i]);
 			Partials[i].noteOn();
 		}
 	}
@@ -43,12 +53,11 @@ namespace LAMELLA_INST {
 	/// </summary>
 	/// <param name="Msg"></param>
 	/// <param name="Table"></param>
-	void AdditiveOscillator::setPartialFrequency(Message Msg, float* Table) {
+	void AdditiveOscillator::setPartialFrequency(int partial_num, Message Msg, float ratio) {
 		float baseFreq = noteNumToHz(Msg.noteNum);
 
-		for (int i = 0; i < NUM_PARTIALS; i++) {
-			Partials[i].setFrequencyHz(baseFreq * Table[i]);
-		}
+			Partials[partial_num].setFrequencyHz(baseFreq * ratio);
+		
 	}
 	/// <summary>
 	/// Stretches or compresses the partials according to the Metallic parameter.
@@ -78,11 +87,15 @@ namespace LAMELLA_INST {
 		if (mMetallic > 0.5) {
 			stretch = (6.0f * mMetallic) - 2.0f;
 		}
-
+		// TODO mMorph isnt very effective
 		for (int i = fromPartial; i < NUM_PARTIALS; i++) {
-			float partialAmount = powf(i, stretch) + (i * mMorph);
+			float partialAmount = 1;
+			if (i > 0) {
+				partialAmount = powf(i + (i * mMorph), stretch);
+
+			}
 			
-			output[i] = partialAmount ;
+			output[i] = input[i] * partialAmount ;
 		}
 	}
 	/// <summary>
@@ -211,15 +224,15 @@ namespace LAMELLA_INST {
 	/// <param name="startPartial"></param>
 	void AdditiveOscillator::calculateDecays(float* Decays, const float* BaseDecays, float velocity, int startPartial) {
 		
-		float offsetScaled = (mDecayOffset * 2) - 1.0f;
+		float offsetAdj = (2 * mDecayOffset) - 1;
 		
 		if (fabsf(mVelDecays) > 0.001) {
-			offsetScaled *= velocity * mVelDecays;
+			offsetAdj *= velocity * mVelDecays;
 		}
 
 		for (int i = 0; i < NUM_PARTIALS; i++) {
 
-			Decays[i] = BaseDecays[i] * (1.0 + offsetScaled);
+			Decays[i] = BaseDecays[i] * (1 + offsetAdj);
 		}
 	}
 

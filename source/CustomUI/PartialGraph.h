@@ -15,6 +15,10 @@ namespace VSTGUI {
 		PartialGraphView(const VSTGUI::CRect& size) : CView(size) {
 			viewSize = size;
 
+			partialAmps.resize(64);
+			partialRatios.resize(64);
+			partialDecays.resize(64);
+
 
 			for (int i = 0; i < 64; i++) {
 				partialAmps[i] = 0;
@@ -41,6 +45,11 @@ namespace VSTGUI {
 			}
 		}
 		void setDecayData(const float* values, int num_partials) {
+
+			if (!values) {
+				return;
+			}
+
 			for (int i = 0; i < numPartials; i++) {
 				partialDecays[i] = values[i];
 
@@ -98,9 +107,9 @@ namespace VSTGUI {
 		
 
 		int numPartials = 16;
-		std::vector<float> partialAmps = std::vector<float>(64);
-		std::vector<float> partialRatios = std::vector<float>(64);
-		std::vector<float> partialDecays = std::vector<float>(64);
+		std::vector<float> partialAmps;
+		std::vector<float> partialRatios;
+		std::vector<float> partialDecays;
 
 
 		//CLASS_METHODS(PartialGraphView, CView);

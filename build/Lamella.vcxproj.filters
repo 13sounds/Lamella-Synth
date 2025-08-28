@@ -19,9 +19,6 @@
     <ClCompile Include="..\source\Helpers\AudioHelpers.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp">
-      <Filter>Partial</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\CustomUI\UIFactory.cpp">
       <Filter>Custom UI</Filter>
     </ClCompile>
@@ -52,15 +49,6 @@
     <ClInclude Include="..\source\Helpers\DataExchangeInfo.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Partial\ImpulseEnvelope.h">
-      <Filter>Partial</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Partial\Oscillator.h">
-      <Filter>Partial</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Partial\Partial.h">
-      <Filter>Partial</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Instrument\LamellaInstrument.h">
       <Filter>Instrument</Filter>
     </ClInclude>
@@ -82,8 +70,14 @@
     <ClInclude Include="..\source\Helpers\OnePoleFilter.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Partial\ResonantSineOsc.h">
-      <Filter>Partial</Filter>
+    <ClInclude Include="..\source\Helpers\Filters.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial_Resonant\Partial.h">
+      <Filter>PingedPartialFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Partial_Resonant\Resonator.h">
+      <Filter>PingedPartialFilter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +127,9 @@
     </Filter>
     <Filter Include="Custom UI">
       <UniqueIdentifier>{cd50f76a-b4a9-4845-b8ec-c658cad1df6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PingedPartialFilter">
+      <UniqueIdentifier>{c1ff87d7-46c1-430b-985d-9815c1523ca0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

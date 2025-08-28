@@ -472,16 +472,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\source\CustomUI\TestSubController.h" />
     <ClInclude Include="..\source\Helpers\AudioHelpers.h" />
     <ClInclude Include="..\source\Helpers\DataExchangeInfo.h" />
+    <ClInclude Include="..\source\Helpers\Filters.h" />
     <ClInclude Include="..\source\Helpers\OnePoleFilter.h" />
     <ClInclude Include="..\source\Instrument\LamellaInstrument.h" />
     <ClInclude Include="..\source\Instrument\LamellaVoice.h" />
     <ClInclude Include="..\source\Instrument\ParamIDs.h.h" />
     <ClInclude Include="..\source\Instrument\ParamRegistration.h" />
     <ClInclude Include="..\source\MidiHandler.h" />
-    <ClInclude Include="..\source\Partial\ImpulseEnvelope.h" />
-    <ClInclude Include="..\source\Partial\Oscillator.h" />
-    <ClInclude Include="..\source\Partial\Partial.h" />
-    <ClInclude Include="..\source\Partial\ResonantSineOsc.h" />
+    <ClInclude Include="..\source\Partial_Resonant\Partial.h" />
+    <ClInclude Include="..\source\Partial_Resonant\Resonator.h" />
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\version.h" />
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\cids.h" />
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\processor.h" />
@@ -489,7 +488,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\source\CustomUI\PartialGraph.cpp" />
     <ClCompile Include="..\source\CustomUI\UIFactory.cpp" />
     <ClCompile Include="..\source\Helpers\AudioHelpers.cpp" />
-    <ClCompile Include="..\source\Partial\ImpulseEnvelope.cpp" />
     <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\processor.cpp" />
     <ClInclude Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.h" />
     <ClCompile Include="C:\Users\anees\Documents\VST DEV\Lamella\source\controller.cpp" />
